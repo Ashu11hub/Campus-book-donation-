@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -53,22 +54,51 @@ export default function RegisterPage() {
     }
   };
 
+  const fieldVariants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: (i: number) => ({
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.35, delay: 0.3 + i * 0.05 },
+    }),
+  };
+
   return (
-    <section className="container-page py-2">
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="container-page py-2"
+    >
       <div className="max-w-md mx-auto">
-        <div className="text-center mb-8">
-          {/* <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center mx-auto mb-4">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="text-center mb-8"
+        >
+          <motion.div
+            initial={{ scale: 0.6, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.15, type: "spring", stiffness: 200 }}
+            className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center mx-auto mb-4"
+          >
             <BookOpen className="w-6 h-6 text-white" />
-          </div> */}
+          </motion.div>
           <h1 className="text-3xl font-bold">Create your account</h1>
           <p className="text-ink-soft mt-2">
             Start sharing and receiving books
           </p>
-        </div>
+        </motion.div>
 
-        <div className="card-base p-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="card-base p-8"
+        >
           <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
+            <motion.div custom={0} variants={fieldVariants} initial="hidden" animate="visible">
               <Label htmlFor="name">Full Name *</Label>
               <Input
                 id="name"
@@ -77,11 +107,11 @@ export default function RegisterPage() {
                 onChange={handleChange}
                 placeholder="Rahul Sharma"
                 required
-                className="mt-1.5"
+                className="mt-1.5 transition-shadow focus:shadow-[0_0_0_4px_rgba(45,106,79,0.1)]"
               />
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div custom={1} variants={fieldVariants} initial="hidden" animate="visible">
               <Label htmlFor="email">Email *</Label>
               <Input
                 id="email"
@@ -91,11 +121,11 @@ export default function RegisterPage() {
                 onChange={handleChange}
                 placeholder="rahul@college.edu"
                 required
-                className="mt-1.5"
+                className="mt-1.5 transition-shadow focus:shadow-[0_0_0_4px_rgba(45,106,79,0.1)]"
               />
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div custom={2} variants={fieldVariants} initial="hidden" animate="visible">
               <Label htmlFor="password">Password *</Label>
               <Input
                 id="password"
@@ -106,11 +136,17 @@ export default function RegisterPage() {
                 placeholder="At least 6 characters"
                 required
                 minLength={6}
-                className="mt-1.5"
+                className="mt-1.5 transition-shadow focus:shadow-[0_0_0_4px_rgba(45,106,79,0.1)]"
               />
-            </div>
+            </motion.div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <motion.div
+              custom={3}
+              variants={fieldVariants}
+              initial="hidden"
+              animate="visible"
+              className="grid grid-cols-2 gap-4"
+            >
               <div>
                 <Label htmlFor="college">College</Label>
                 <Input
@@ -133,9 +169,15 @@ export default function RegisterPage() {
                   className="mt-1.5"
                 />
               </div>
-            </div>
+            </motion.div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <motion.div
+              custom={4}
+              variants={fieldVariants}
+              initial="hidden"
+              animate="visible"
+              className="grid grid-cols-2 gap-4"
+            >
               <div>
                 <Label htmlFor="branch">Branch</Label>
                 <Input
@@ -158,32 +200,46 @@ export default function RegisterPage() {
                   className="mt-1.5"
                 />
               </div>
-            </div>
+            </motion.div>
 
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-primary hover:bg-primary-hover h-11 font-medium"
+            <motion.div
+              custom={5}
+              variants={fieldVariants}
+              initial="hidden"
+              animate="visible"
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
             >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Creating...
-                </>
-              ) : (
-                "Create Account"
-              )}
-            </Button>
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-primary hover:bg-primary-hover h-11 font-medium"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Creating...
+                  </>
+                ) : (
+                  "Create Account"
+                )}
+              </Button>
+            </motion.div>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-border text-center text-sm">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.6 }}
+            className="mt-6 pt-6 border-t border-border text-center text-sm"
+          >
             <span className="text-ink-soft">Already have an account? </span>
             <Link href="/login" className="text-primary font-medium hover:underline">
               Login
             </Link>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, Upload, X, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -132,52 +133,97 @@ export default function ListBookPage() {
 
   if (!session) {
     return (
-      <div className="container-page py-20 text-center">
-        <BookOpen className="w-12 h-12 text-primary mx-auto mb-4" />
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="container-page py-20 text-center"
+      >
+        <motion.div
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <BookOpen className="w-12 h-12 text-primary mx-auto mb-4" />
+        </motion.div>
         <h2 className="text-2xl font-bold mb-2">Please login first</h2>
         <p className="text-ink-soft mb-6">
           You need to be logged in to donate a book.
         </p>
-        <Button onClick={() => router.push("/login")} className="bg-primary hover:bg-primary-hover">
+        <Button
+          onClick={() => router.push("/login")}
+          className="bg-primary hover:bg-primary-hover transition-transform hover:scale-105"
+        >
           Login
         </Button>
-      </div>
+      </motion.div>
     );
   }
+
+  const fieldVariants = {
+    hidden: { opacity: 0, y: 15 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.06, duration: 0.35 },
+    }),
+  };
 
   return (
     <section className="container-page py-12">
       <div className="max-w-3xl mx-auto">
-        <div className="mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-8"
+        >
           <h1 className="text-3xl md:text-4xl font-bold">Donate a Book</h1>
           <p className="text-ink-soft mt-2">
             Share your study material with someone who needs it.
           </p>
-        </div>
+        </motion.div>
 
-        <form onSubmit={handleSubmit} className="card-base p-6 md:p-8 space-y-6">
-          <div>
+        <motion.form
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          onSubmit={handleSubmit}
+          className="card-base p-6 md:p-8 space-y-6"
+        >
+          <motion.div custom={0} variants={fieldVariants} initial="hidden" animate="visible">
             <Label>Book Photos * (max 5)</Label>
             <p className="text-xs text-ink-mute mt-1 mb-3">
               First photo will be the cover.
             </p>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-              {images.map((url) => (
-                <div key={url} className="relative aspect-square rounded-xl overflow-hidden border border-border group">
-                  <img src={url} alt="Book" className="w-full h-full object-cover" />
-                  <button
-                    type="button"
-                    onClick={() => removeImage(url)}
-                    className="absolute top-1 right-1 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
+              <AnimatePresence>
+                {images.map((url) => (
+                  <motion.div
+                    key={url}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.25 }}
+                    className="relative aspect-square rounded-xl overflow-hidden border border-border group"
                   >
-                    <X className="w-3 h-3" />
-                  </button>
-                </div>
-              ))}
+                    <img src={url} alt="Book" className="w-full h-full object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(url)}
+                      className="absolute top-1 right-1 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <X className="w-3 h-3" />
+                    </button>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
 
               {images.length < 5 && (
-                <label className="aspect-square rounded-xl border-2 border-dashed border-border hover:border-primary hover:bg-primary-light/30 flex flex-col items-center justify-center cursor-pointer transition">
+                <motion.label
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="aspect-square rounded-xl border-2 border-dashed border-border hover:border-primary hover:bg-primary-light/30 flex flex-col items-center justify-center cursor-pointer transition-colors"
+                >
                   {uploading ? (
                     <Loader2 className="w-5 h-5 text-primary animate-spin" />
                   ) : (
@@ -194,12 +240,18 @@ export default function ListBookPage() {
                     disabled={uploading}
                     className="hidden"
                   />
-                </label>
+                </motion.label>
               )}
             </div>
-          </div>
+          </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-5">
+          <motion.div
+            custom={1}
+            variants={fieldVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid md:grid-cols-2 gap-5"
+          >
             <div>
               <Label htmlFor="title">Book Title *</Label>
               <Input
@@ -209,7 +261,7 @@ export default function ListBookPage() {
                 onChange={handleChange}
                 placeholder="Data Structures & Algorithms"
                 required
-                className="mt-1.5"
+                className="mt-1.5 transition-shadow focus:shadow-[0_0_0_4px_rgba(45,106,79,0.1)]"
               />
             </div>
             <div>
@@ -223,9 +275,15 @@ export default function ListBookPage() {
                 className="mt-1.5"
               />
             </div>
-          </div>
+          </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-5">
+          <motion.div
+            custom={2}
+            variants={fieldVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid md:grid-cols-2 gap-5"
+          >
             <div>
               <Label htmlFor="subject">Subject *</Label>
               <Input
@@ -252,9 +310,15 @@ export default function ListBookPage() {
                 ))}
               </select>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-5">
+          <motion.div
+            custom={3}
+            variants={fieldVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid md:grid-cols-2 gap-5"
+          >
             <div>
               <Label htmlFor="semester">Semester *</Label>
               <select
@@ -283,9 +347,9 @@ export default function ListBookPage() {
                 ))}
               </select>
             </div>
-          </div>
+          </motion.div>
 
-          <div>
+          <motion.div custom={4} variants={fieldVariants} initial="hidden" animate="visible">
             <Label htmlFor="description">Description *</Label>
             <Textarea
               id="description"
@@ -297,9 +361,15 @@ export default function ListBookPage() {
               rows={4}
               className="mt-1.5"
             />
-          </div>
+          </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-5">
+          <motion.div
+            custom={5}
+            variants={fieldVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid md:grid-cols-2 gap-5"
+          >
             <div>
               <Label htmlFor="college">College *</Label>
               <Input
@@ -324,15 +394,17 @@ export default function ListBookPage() {
                 className="mt-1.5"
               />
             </div>
-          </div>
+          </motion.div>
 
-          <div>
+          <motion.div custom={6} variants={fieldVariants} initial="hidden" animate="visible">
             <Label>Donation Type *</Label>
             <div className="mt-2 flex flex-wrap gap-3">
               {["Free", "Exchange", "Low Price"].map((type) => (
-                <label
+                <motion.label
                   key={type}
-                  className={`px-4 py-2 rounded-lg border cursor-pointer text-sm font-medium transition ${
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.96 }}
+                  className={`px-4 py-2 rounded-lg border cursor-pointer text-sm font-medium transition-colors ${
                     form.donationType === type
                       ? "border-primary bg-primary-light text-primary"
                       : "border-border hover:bg-black/5"
@@ -347,43 +419,58 @@ export default function ListBookPage() {
                     className="hidden"
                   />
                   {type}
-                </label>
+                </motion.label>
               ))}
             </div>
-          </div>
+          </motion.div>
 
-          {form.donationType === "Low Price" && (
-            <div>
-              <Label htmlFor="price">Price (₹)</Label>
-              <Input
-                id="price"
-                name="price"
-                type="number"
-                value={form.price}
-                onChange={handleChange}
-                placeholder="100"
-                className="mt-1.5"
-              />
-            </div>
-          )}
+          <AnimatePresence>
+            {form.donationType === "Low Price" && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Label htmlFor="price">Price (₹)</Label>
+                <Input
+                  id="price"
+                  name="price"
+                  type="number"
+                  value={form.price}
+                  onChange={handleChange}
+                  placeholder="100"
+                  className="mt-1.5"
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          <div className="pt-4 border-t border-border">
-            <Button
-              type="submit"
-              disabled={loading || uploading}
-              className="w-full bg-primary hover:bg-primary-hover h-12 text-base font-medium"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Listing book...
-                </>
-              ) : (
-                "List Book for Donation"
-              )}
-            </Button>
-          </div>
-        </form>
+          <motion.div
+            custom={7}
+            variants={fieldVariants}
+            initial="hidden"
+            animate="visible"
+            className="pt-4 border-t border-border"
+          >
+            <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
+              <Button
+                type="submit"
+                disabled={loading || uploading}
+                className="w-full bg-primary hover:bg-primary-hover h-12 text-base font-medium"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Listing book...
+                  </>
+                ) : (
+                  "List Book for Donation"
+                )}
+              </Button>
+            </motion.div>
+          </motion.div>
+        </motion.form>
       </div>
     </section>
   );
