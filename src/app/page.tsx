@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
+import { motion, useInView, animate } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, BookOpen, HeartHandshake, Search, Sparkles, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -73,7 +73,7 @@ function FloatingBook({
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 0.15, scale: 1 }}
       transition={{ delay, duration: 0.8 }}
-      className="absolute pointer-events-none hidden md:block"
+      className="absolute pointer-events-none hidden md:block z-20"
       style={{ left: x, top: y }}
     >
       <motion.div
@@ -97,12 +97,34 @@ export default function Home() {
   return (
     <>
       <section className="container-page pt-16 pb-20 md:pt-24 md:pb-28 relative overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.2 }}
+          className="absolute right-[-8%] top-[8%]  -translate-y-1/2 w-[500px] h-[500px] md:w-[700px] md:h-[700px] pointer-events-none select-none z-0"
+        >
+          <motion.img
+            src="/hero-illustration.png"
+            alt=""
+            className="w-full h-full object-contain opacity-15 md:opacity-20"
+            animate={{
+              y: [0, -15, 0],
+              rotate: [0, 2, 0],
+            }}
+            transition={{
+              duration: 12,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        </motion.div>
+
         <FloatingBook delay={0} duration={6} x="85%" y="10%" size={48} rotate={-15} />
         <FloatingBook delay={0.3} duration={7} x="92%" y="55%" size={36} rotate={20} />
         <FloatingBook delay={0.6} duration={5.5} x="80%" y="80%" size={42} rotate={-8} />
         <FloatingBook delay={0.9} duration={6.5} x="75%" y="35%" size={30} rotate={12} />
 
-        <div className="max-w-3xl relative z-10">
+        <div className="max-w-3xl relative z-30">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -173,7 +195,7 @@ export default function Home() {
           </motion.div>
         </div>
 
-        <div className="mt-20 grid grid-cols-3 gap-6 max-w-2xl">
+        <div className="mt-20 grid grid-cols-3 gap-6 max-w-2xl relative z-30">
           {stats.map((s, i) => (
             <motion.div
               key={s.label}
