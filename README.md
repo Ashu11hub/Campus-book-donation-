@@ -111,40 +111,7 @@ Instead of throwing books away, students list them on the platform. Juniors brow
 
 ---
 
-## 🚀 Getting Started
 
-### Prerequisites
-- Node.js 18+
-- MongoDB Atlas account (free tier)
-- Cloudinary account (free tier)
-- Google Cloud project with OAuth 2.0 credentials
-
-### Installation
-
-```bash
-# Clone repository
-git clone https://github.com/Ashu11Hub/Campus-book-donation-.git
-cd Campus-book-donation-
-
-# Install dependencies
-npm install
-```
-
-### Environment Variables
-
-Create `.env.local` in the root:
-
-```env
-MONGODB_URI=mongodb+srv://<user>:<pass>@cluster.mongodb.net/campusbooks
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your_random_secret
-
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
 ```
 
 ### Run Locally
