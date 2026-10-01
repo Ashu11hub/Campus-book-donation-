@@ -129,12 +129,12 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-light text-primary text-xs font-medium mb-6 relative overflow-hidden"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-light text-primary text-xs font-medium mb-6 relative overflow-hidden italic"
           >
-            <Sparkles className="w-3.5 h-3.5" />
+            <Sparkles className="w-3.5 h-3.5 " />
             Free for every student
             <motion.span
-              className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/60 to-transparent"
+              className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-amber-300/70 to-transparent"
               animate={{ x: ["-100%", "200%"] }}
               transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3 }}
             />
@@ -144,7 +144,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl md:text-6xl font-bold leading-[1.1] tracking-tight"
+            className="text-4xl md:text-6xl font-serif italic font-medium leading-[1.1] tracking-tight"
           >
             Your old books.
           </motion.h1>
@@ -153,7 +153,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            className="text-4xl md:text-6xl font-bold leading-[1.1] tracking-tight text-primary"
+            className="text-4xl md:text-6xl font-black leading-[1.05] tracking-tight text-primary"
           >
             Someone&apos;s next semester.
           </motion.h1>

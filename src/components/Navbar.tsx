@@ -62,7 +62,7 @@ export default function Navbar() {
             transition={{ type: "spring", stiffness: 400 }}
             className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center"
           >
-            <BookOpen className="w-5 h-5 text-white" />
+            <img src="/logo.png" alt="Logo" className="w-5 h-5 object-contain" />
           </motion.div>
           <span className="font-bold text-lg tracking-tight">Campus Books</span>
         </Link>

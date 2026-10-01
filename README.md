@@ -111,9 +111,6 @@ Instead of throwing books away, students list them on the platform. Juniors brow
 
 ---
 
-
-```
-
 ### Run Locally
 
 ```bash
